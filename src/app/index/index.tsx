@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { View, Text } from "react-native";
 import Ingredients from "@/components/ingredients";
 
