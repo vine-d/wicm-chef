@@ -31,7 +31,7 @@ export default function Ingredients() {
 
   useEffect(() => {
     services.ingredients.getAll().then(setIngredients)
-  })
+  }, [])
 
   return (
     <>
