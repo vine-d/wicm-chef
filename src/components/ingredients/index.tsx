@@ -1,27 +1,37 @@
-import { useState } from "react";
-import { ScrollView, Alert } from "react-native";
+import { useState, useEffect } from 'react'
+import { ScrollView, Alert } from 'react-native'
+import { router } from 'expo-router'
 
-import Ingredient from "@/components/ingredient";
-import Selection from "@/components/selection";
-
-import { styles } from "./styles";
+import Ingredient from '@/components/Ingredient'
+import Selection from '@/components/Selection'
+import { styles } from './styles'
+import { services } from '@/services'
 
 export default function Ingredients() {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>([])
+  const [ingredients, setIngredients] = useState<IngredientResponse[]>([])
 
   function handleToggleSelected(value: string) {
     if (selected.includes(value)) {
-      return setSelected(selected.filter((item) => item !== value));
+      return setSelected(selected.filter((item) => item !== value))
     }
-    return setSelected([...selected, value]);
+    return setSelected([...selected, value])
   }
 
   function handleClearSelection() {
-    Alert.alert("Clear selection", "Clear all the selected ingredients?", [
-      { text: "No", style: "cancel" },
-      { text: "Yes", onPress: () => setSelected([]) },
-    ]);
+    Alert.alert('Clear selection', 'Clear all the selected ingredients?', [
+      { text: 'No', style: 'cancel' },
+      { text: 'Yes', onPress: () => setSelected([]) },
+    ])
   }
+
+  function handleOnSearch() {
+    router.navigate('/recipes/' + selected)
+  }
+
+  useEffect(() => {
+    services.ingredients.getAll().then(setIngredients)
+  })
 
   return (
     <>
@@ -30,23 +40,19 @@ export default function Ingredients() {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {Array.from({ length: 42 }).map((_, index) => (
+        {ingredients.map((ingredient, index) => (
           <Ingredient
-            key={index}
-            name="apple"
-            image="apple.png"
-            onPress={() => handleToggleSelected(String(index))}
-            selected={selected.includes(String(index)) ? true : false}
+            key={ingredient.id}
+            name={ingredient.name}
+            image={`${services.storage.imagePath}/${ingredient.image}`}
+            onPress={() => handleToggleSelected(ingredient.id)}
+            selected={selected.includes(ingredient.id) ? true : false}
           />
         ))}
       </ScrollView>
       {selected.length > 0 && (
-        <Selection
-          quantity={selected.length}
-          onClear={handleClearSelection}
-          onSearch={() => {}}
-        />
+        <Selection quantity={selected.length} onClear={handleClearSelection} onSearch={handleOnSearch} />
       )}
     </>
-  );
+  )
 }

@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     bottom: 24,
     width: "100%",
     alignSelf: "center",
+    zIndex: 9,
   },
   header: {
     flexDirection: "row",
