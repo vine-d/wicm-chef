@@ -71,7 +71,7 @@ EXPO_PUBLIC_IMAGE_PATH=<...>
 ### To-do
 
 - [x] Create a README.md file
-- [ ] Add app screenshots to this README
+- [x] Add app screenshots to this README
 - [ ] Add splash screen
 - [ ] Add app icon
 - [ ] Update the Figma (design) project
