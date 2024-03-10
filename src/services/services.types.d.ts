@@ -6,7 +6,7 @@ type IngredientResponse = {
 
 type PreparationResponse = {
   id: string
-  step: string
+  step: number
   description: string
 }
 

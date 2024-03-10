@@ -6,3 +6,8 @@ export async function getByIngredientIds(ingredientIds: string[]) {
     .returns<RecipeResponse[]>()
   return data ?? []
 }
+
+export async function get(recipeId: string) {
+  const { data } = await supabase.from('recipes').select().eq('id', recipeId).returns<RecipeResponse>().single()
+  return data
+}

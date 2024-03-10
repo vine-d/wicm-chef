@@ -6,7 +6,7 @@ export async function getAll() {
     .select('*')
     .order('name', { ascending: true })
     .returns<IngredientResponse[]>()
-  return data || []
+  return data ?? []
 }
 
 export async function getByIds(ingredientIds: string[]) {
@@ -16,15 +16,15 @@ export async function getByIds(ingredientIds: string[]) {
     .in('id', ingredientIds)
     .order('name', { ascending: true })
     .returns<IngredientResponse[]>()
-  return data || []
+  return data ?? []
 }
 
 export async function getByRecipeId(recipeId: string) {
   const { data } = await supabase
     .from('recipes_ingredients')
-    .select('ingredients(id, name, image)')
+    .select('ingredients (id, name, image)')
     .eq('recipe_id', recipeId)
     .order('name', { ascending: true })
     .returns<IngredientResponse[]>()
-  return data || []
+  return data ?? []
 }
